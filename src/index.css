@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+*{
+  font-family: 'Roboto', sans-serif;
+}
+body {
+  margin: 0;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.bg-main{
+  background-color: #e5e5f7;  
+  background-image:  radial-gradient(#F7685C 0.5px, transparent 0.5px), radial-gradient(#F7685C 0.5px, #ffffff 0.5px);
+  background-size: 20px 20px;
+  background-position: 0 0,10px 10px;
+}
+
+
