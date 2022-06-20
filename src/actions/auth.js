@@ -26,7 +26,10 @@ export const loginUsuario = (datos) => {
         payload: resultado.data.token,
       });
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: types.error,
+        payload: error.response.data.msg,
+      });
     }
   };
 };
@@ -53,6 +56,23 @@ export const cerrarSesion = () => {
   return (dispatch) => {
     dispatch({
       type: types.cerrarSesion,
+    });
+  };
+};
+
+export const establecerError = (msg) => {
+  return (dispatch) => {
+    dispatch({
+      type: types.error,
+      payload: msg,
+    });
+  };
+};
+
+export const limpiarError = () => {
+  return (dispatch) => {
+    dispatch({
+      type: types.limpiarError,
     });
   };
 };

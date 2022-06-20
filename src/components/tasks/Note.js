@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { modal } from "src/actions/modal";
 import { eliminarNota, seleccionarNota } from "src/actions/notas";
+import { motion } from "framer-motion";
 
 export const Note = ({ nota }) => {
   // Dispatch de acciones
@@ -22,7 +23,9 @@ export const Note = ({ nota }) => {
   };
 
   return (
-    <div
+    <motion.div
+      animate={{ x: 100 }}
+      transition={{ ease: "easeOut", duration: 2 }}
       className={`rounded-lg p-2 overflow-hidden m-1 w-72 min-h-[100px] max-h-fit relative ${nota.color} dark:text-black`}
     >
       <h4 className="mb-2 text-xl">{nota.titulo}</h4>
@@ -40,6 +43,6 @@ export const Note = ({ nota }) => {
           </div>
         </footer>
       </div>
-    </div>
+    </motion.div>
   );
 };

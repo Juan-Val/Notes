@@ -4,6 +4,10 @@ const initialState = {
   autenticado: false,
   usuario: [],
   cargando: true,
+  error: {
+    estado: false,
+    msg: null,
+  },
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -32,6 +36,22 @@ export const authReducer = (state = initialState, action) => {
         autenticado: false,
         usuario: null,
         cargando: false,
+      };
+    case types.error:
+      return {
+        ...state,
+        error: {
+          estado: true,
+          msg: action.payload,
+        },
+      };
+    case types.limpiarError:
+      return {
+        ...state,
+        error: {
+          estado: false,
+          msg: null,
+        },
       };
     default:
       return state;

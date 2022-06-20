@@ -19,4 +19,8 @@ export const types = {
   login: "LOGIN_EXITOSO",
   obtenerUsuario: "OBTENER_USUARIO",
   cerrarSesion: "CERRAR_SESION",
+
+  // Errores
+  error: "ERROR",
+  limpiarError: "LIMPIAR_ERROR",
 };

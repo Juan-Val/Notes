@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginUsuario } from "src/actions/auth";
+import { establecerError, limpiarError, loginUsuario } from "src/actions/auth";
 import { ErrorForm } from "../error/ErrorForm";
 
 // State de formulario de login
@@ -11,17 +11,12 @@ export const FormLogin = () => {
 
   // Extraer el estado del usuario
   const autenticado = useSelector((state) => state.auth.autenticado);
+  const error = useSelector((state) => state.auth.error);
+  const { estado, msg } = error;
   let navigate = useNavigate();
-
   const [formlogin, setFormLogin] = useState({
     email: "",
     password: "",
-  });
-
-  // State de error
-  const [error, setError] = useState({
-    stateError: false,
-    mensaje: "",
   });
 
   // Extraccion de valores de formulario
@@ -39,22 +34,13 @@ export const FormLogin = () => {
 
     // Validar el formulario
     if (email.trim() === "" && password.trim() === "") {
-      setError({
-        stateError: true,
-        mensaje: "Por favor llena ambos campos",
-      });
+      dispatch(establecerError("Todos los campos son obligatorios"));
       return;
     } else if (email.trim() === "") {
-      setError({
-        stateError: true,
-        mensaje: "El nombre de email es necesario",
-      });
+      dispatch(establecerError("El email es obligatorio"));
       return;
     } else if (password.trim() === "") {
-      setError({
-        stateError: true,
-        mensaje: "La contraseña es necessaria",
-      });
+      dispatch(establecerError("El password es obligatorio"));
       return;
     }
 
@@ -65,10 +51,7 @@ export const FormLogin = () => {
       usuario: "",
       password: "",
     });
-    setError({
-      stateError: false,
-      mensaje: "",
-    });
+    dispatch(limpiarError());
   };
 
   useEffect(() => {
@@ -101,7 +84,7 @@ export const FormLogin = () => {
         value={password || ""}
         onChange={handleChange}
       />
-      {error.stateError ? <ErrorForm error={error} /> : null}
+      {estado ? <ErrorForm error={msg} /> : null}
       <button
         to="home"
         className="m-2 p-3 text-center  bg-[#F7685C] hover:bg-[#c43f33] transition-all ease-in duration-300 rounded-md text-white text-lg drop-shadow-md"

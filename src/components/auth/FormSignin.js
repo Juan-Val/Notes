@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { registrar } from "src/actions/auth";
+import { establecerError, limpiarError, registrar } from "src/actions/auth";
 import { ErrorForm } from "../error/ErrorForm";
 
 export const FormSignin = () => {
@@ -20,10 +20,8 @@ export const FormSignin = () => {
   });
 
   // State de error
-  const [error, setError] = useState({
-    stateError: false,
-    mensaje: "",
-  });
+  const error = useSelector((state) => state.auth.error);
+  const { estado, msg } = error;
 
   // Extraccion de valores de formulario
   const { nombre, email, password, confirmPassword } = formsignin;
@@ -45,40 +43,22 @@ export const FormSignin = () => {
       password.trim() === "" &&
       confirmPassword.trim() === ""
     ) {
-      setError({
-        stateError: true,
-        mensaje: "Todos los campos son necesarios",
-      });
+      dispatch(establecerError("Todos los campos son obligatorios"));
       return;
     } else if (nombre.trim() === "") {
-      setError({
-        stateError: true,
-        mensaje: "El nombre de usuario es necesario",
-      });
+      dispatch(establecerError("El nombre es obligatorio"));
       return;
     } else if (email.trim() === "") {
-      setError({
-        stateError: true,
-        mensaje: "EL email es necessaria",
-      });
+      dispatch(establecerError("El email es obligatorio"));
       return;
     } else if (password.trim() === "") {
-      setError({
-        stateError: true,
-        mensaje: "La contraseña es necessaria",
-      });
+      dispatch(establecerError("El password es obligatorio"));
       return;
     } else if (confirmPassword.trim() === "") {
-      setError({
-        stateError: true,
-        mensaje: "La contraseña es necessaria",
-      });
+      dispatch(establecerError("Por favor confirme la contraseña"));
       return;
     } else if (password !== confirmPassword) {
-      setError({
-        stateError: true,
-        mensaje: "Las contraseñas no coinciden",
-      });
+      dispatch(establecerError("Las contraseñas no coinciden"));
       return;
     }
 
@@ -90,10 +70,7 @@ export const FormSignin = () => {
       nombre: "",
       password: "",
     });
-    setError({
-      stateError: false,
-      mensaje: "",
-    });
+    dispatch(limpiarError());
   };
 
   useEffect(() => {
@@ -141,7 +118,7 @@ export const FormSignin = () => {
         value={confirmPassword || ""}
         onChange={handleChange}
       />
-      {error.stateError ? <ErrorForm error={error} /> : null}
+      {estado ? <ErrorForm error={msg} /> : null}
       <button
         type="submit"
         className="m-2 p-3 text-center  bg-[#F7685C] rounded-md text-white text-lg drop-shadow-md  hover:bg-[#c43f33] transition-all ease-in duration-300"
